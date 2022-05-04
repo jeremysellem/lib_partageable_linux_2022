@@ -1,12 +1,17 @@
-
+# If the first argument is "install"...
+ifeq (install,$(firstword $(MAKECMDGOALS)))
+  # use the rest as arguments for "run"
+  COMPONENTS_NEEDED := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(COMPONENTS_NEEDED):;@:)
+endif
 
 CPPFLAGS=-I../interfaces
 BIN_DIR=../bin
-COMPONENTS_NEEDED=Composant1 Composant2
 COMPONENTS_DIR=../lib
 COMPONENTS_FILES=${COMPONENTS_NEEDED:%=${COMPONENTS_DIR}/lib%.so}
 LD_COMPONENTS=${COMPONENTS_NEEDED:%=-l%}
-LDFLAGS=-L ${COMPONENTS_DIR} ${LD_COMPONENTS}
+LDFLAGS=-L ${COMPONENTS_DIR} ${LD_COMPONENTS} -ldl
 EXE = main
 OBJS = main.o
 
