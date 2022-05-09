@@ -1,6 +1,6 @@
 # If the first argument is "all"...
 ifeq (all,$(firstword $(MAKECMDGOALS)))
-  # use the rest as arguments for "run"
+  # use the rest as arguments
   COMPONENTS_NEEDED := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
   # ...and turn them into do-nothing targets
   $(eval $(COMPONENTS_NEEDED):;@:)
